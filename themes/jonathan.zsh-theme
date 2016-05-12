@@ -4,14 +4,13 @@ function theme_precmd {
     local TERMWIDTH
     (( TERMWIDTH = ${COLUMNS} - 1 ))
 
-
     ###
     # Truncate the path if it's too long.
 
     PR_FILLBAR=""
     PR_PWDLEN=""
 
-    local promptsize=${#${(%):---(%n@%m:%l)---()--}}
+    local promptsize=${#${(%):---(%n@%M:%l)---()--}}
     local rubyprompt=`rvm_prompt_info || rbenv_prompt_info`
     local rubypromptsize=${#${rubyprompt}}
     local pwdsize=${#${(%):-%~}}
@@ -24,7 +23,6 @@ function theme_precmd {
 
 }
 
-
 setopt extended_glob
 theme_preexec () {
     if [[ "$TERM" == "screen" ]]; then
@@ -33,13 +31,11 @@ theme_preexec () {
     fi
 }
 
-
 setprompt () {
     ###
     # Need this so the prompt will work.
 
     setopt prompt_subst
-
 
     ###
     # See if we can use colors.
@@ -71,10 +67,10 @@ setprompt () {
     # UTF-8 Fixed
 
     if [[ $(locale charmap) == "UTF-8" ]]; then
-	PR_SET_CHARSET=""
-	PR_SHIFT_IN=""
-	PR_SHIFT_OUT=""
-	PR_HBAR="─"
+        PR_SET_CHARSET=""
+        PR_SHIFT_IN=""
+        PR_SHIFT_OUT=""
+        PR_HBAR="─"
         PR_ULCORNER="┌"
         PR_LLCORNER="└"
         PR_LRCORNER="┘"
@@ -93,7 +89,6 @@ setprompt () {
         PR_URCORNER='$PR_SHIFT_IN${altchar[k]:--}$PR_SHIFT_OUT'
      fi
 
-
     ###
     # Decide if we need to set titlebar text.
 
@@ -109,7 +104,6 @@ setprompt () {
 	    ;;
     esac
 
-
     ###
     # Decide whether to set a screen title
     if [[ "$TERM" == "screen" ]]; then
@@ -118,32 +112,17 @@ setprompt () {
 	PR_STITLE=''
     fi
 
-
     ###
     # Finally, the prompt.
 
-    PROMPT='$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}\
-$PR_CYAN$PR_ULCORNER$PR_HBAR$PR_GREY(\
-$PR_GREEN%$PR_PWDLEN<...<%~%<<\
-$PR_GREY)`rvm_prompt_info || rbenv_prompt_info`$PR_CYAN$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR$PR_GREY(\
-$PR_CYAN%(!.%SROOT%s.%n)$PR_GREY@$PR_GREEN%m:%l\
-$PR_GREY)$PR_CYAN$PR_HBAR$PR_URCORNER\
-
-$PR_CYAN$PR_LLCORNER$PR_BLUE$PR_HBAR(\
-$PR_YELLOW%D{%H:%M:%S}\
-$PR_LIGHT_BLUE%{$reset_color%}`git_prompt_info``git_prompt_status`$PR_BLUE)$PR_CYAN$PR_HBAR\
-$PR_HBAR\
->$PR_NO_COLOUR '
+    PROMPT='$PR_SET_CHARSET$PR_STITLE${(e)PR_TITLEBAR}$PR_CYAN$PR_ULCORNER$PR_HBAR$PR_GREY($PR_GREEN%$PR_PWDLEN<...<%~%<<$PR_GREY)${rubyprompt}$PR_CYAN$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR$PR_GREY($PR_CYAN%(!.$PR_RED%SROOT%s.%n)$PR_GREY@$PR_GREEN%M:%l$PR_GREY)$PR_CYAN$PR_HBAR$PR_URCORNER
+$PR_CYAN$PR_LLCORNER$PR_BLUE$PR_HBAR($PR_YELLOW%D{%H:%M:%S}$PR_LIGHT_BLUE%{$reset_color%}`git_prompt_info``git_prompt_status`$PR_BLUE)$PR_CYAN$PR_HBAR$PR_HBAR>$PR_NO_COLOUR '
 
     # display exitcode on the right when >0
     return_code="%(?..%{$fg[red]%}%? ↵ %{$reset_color%})"
-    RPROMPT=' $return_code$PR_CYAN$PR_HBAR$PR_BLUE$PR_HBAR\
-($PR_YELLOW%D{%a,%b%d}$PR_BLUE)$PR_HBAR$PR_CYAN$PR_LRCORNER$PR_NO_COLOUR'
+    RPROMPT=' $return_code$PR_CYAN$PR_HBAR$PR_BLUE$PR_HBAR($PR_YELLOW%D{%a,%b%d}$PR_BLUE)$PR_HBAR$PR_CYAN$PR_LRCORNER$PR_NO_COLOUR'
 
-    PS2='$PR_CYAN$PR_HBAR\
-$PR_BLUE$PR_HBAR(\
-$PR_LIGHT_GREEN%_$PR_BLUE)$PR_HBAR\
-$PR_CYAN$PR_HBAR$PR_NO_COLOUR '
+    PS2='$PR_CYAN$PR_HBAR$PR_BLUE$PR_HBAR($PR_LIGHT_GREEN%_$PR_BLUE)$PR_HBAR$PR_CYAN$PR_HBAR$PR_NO_COLOUR '
 }
 
 setprompt

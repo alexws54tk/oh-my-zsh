@@ -23,8 +23,8 @@ export PAGER="less"
 export LESS="-R"
 
 ## super user alias
-alias _='sudo'
-alias please='sudo'
+alias _='sudo '
+alias please='sudo '
 
 ## more intelligent acking for ubuntu users
 if which ack-grep &> /dev/null; then
