@@ -6,34 +6,13 @@ zstyle -s ":vcs_info:git:*:-all-" "command" _omz_git_git_cmd
 # Functions
 #
 
-<<<<<<< HEAD
-# The current branch name
-# Usage example: git pull origin $(current_branch)
-# Using '--quiet' with 'symbolic-ref' will not cause a fatal error (128) if
-# it's not a symbolic ref, but in a Git repo.
-# function current_branch() {
-#   local ref
-#   ref=$($_omz_git_git_cmd symbolic-ref --quiet HEAD 2> /dev/null)
-#   local ret=$?
-#   if [[ $ret != 0 ]]; then
-#     [[ $ret == 128 ]] && return  # no git repo.
-#     ref=$($_omz_git_git_cmd rev-parse --short HEAD 2> /dev/null) || return
-#   fi
-#   echo ${ref#refs/heads/}
-# }
-function git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "$(parse_git_dirty)$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
-=======
 # The name of the current branch
 # Back-compatibility wrapper for when this function was defined here in
 # the plugin, before being pulled in to core lib/git.zsh as git_current_branch()
 # to fix the core -> git plugin dependency.
 function current_branch() {
   git_current_branch
->>>>>>> 0ebe35968cee69431790c78d427813d073db71c1
 }
-
 # The list of remotes
 function current_repository() {
   if ! $_omz_git_git_cmd rev-parse --is-inside-work-tree &> /dev/null; then
